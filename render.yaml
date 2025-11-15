@@ -1,0 +1,13 @@
+﻿services:
+  - type: web
+    name: boutique-magasin
+    env: python
+    region: frankfurt
+    branch: main
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    startCommand: gunicorn monsite.wsgi:application
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: 3.10
