@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mon Panier</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body class="cart-body">
+
+<header class="cart-header">
+    <h1 class="cart-title">🛒 Mon Panier</h1>
+    <a href="{% url 'product_list' %}" class="btn-retour">← Continuer mes achats</a>
+</header>
+
+<div class="cart-container">
+
+{% if panier %}
+    <table class="table-panier">
+        <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Quantité</th>
+                <th>Prix Unitaire</th>
+                <th>Total</th>
+                <th>Supprimer</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in panier %}
+            <tr>
+                <td>{{ item.nom }}</td>
+                <td>{{ item.quantite }}</td>
+                <td>{{ item.prix }} FCFA</td>
+                <td>{{ item.total_price }} FCFA</td>
+                <td>
+                    <a href="{% url 'remove_from_cart' item.id %}" class="btn-delete">✖</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="total-panier">
+        <p>Total général : <strong>{{ total }} FCFA</strong></p>
+        <a href="{% url 'checkout' %}" class="btn-commander">Passer la commande</a>
+    </div>
+
+{% else %}
+    <p class="cart-empty">Votre panier est vide 😕</p>
+{% endif %}
+
+</div>
+
+</body>
+</html>

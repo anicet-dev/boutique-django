@@ -1,0 +1,99 @@
+{% extends 'boutique/base.html' %}
+{% load static %}
+
+{% block title %}Paiement Mobile Money | Ma Boutique{% endblock %}
+
+{% block content %}
+<style>
+    .payment-container {
+        max-width: 600px;
+        margin: 60px auto;
+        background: #fff;
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+    h1 {
+        color: #007bff;
+        margin-bottom: 15px;
+    }
+
+    p {
+        color: #555;
+        margin-bottom: 30px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    input[type="tel"], input[type="number"] {
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+        width: 100%;
+    }
+
+    button {
+        background-color: #28a745;
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background-color: #218838;
+    }
+
+    .info {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .back-btn {
+        display: inline-block;
+        background: #007bff;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 8px;
+        text-decoration: none;
+        margin-top: 20px;
+    }
+
+    .back-btn:hover {
+        background: #0056b3;
+    }
+</style>
+
+<div class="payment-container">
+    <h1>💳 Paiement Mobile Money</h1>
+    <p>Veuillez entrer votre numéro Mobile Money pour effectuer le paiement.</p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="info">
+            Montant à payer : <strong>{{ order.total }} FCFA</strong>
+        </div>
+
+        <label for="phone">Numéro Mobile Money :</label>
+        <input type="tel" name="phone" id="phone" placeholder="Ex : +229 67 00 00 00" required>
+
+        <input type="hidden" name="amount" value="{{ order.total }}">
+
+        <button type="submit">Confirmer le paiement</button>
+    </form>
+
+    <a href="{% url 'boutique:checkout' %}" class="back-btn">⬅ Retour à la livraison</a>
+</div>
+{% endblock %}

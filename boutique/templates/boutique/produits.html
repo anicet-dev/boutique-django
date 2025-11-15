@@ -1,0 +1,116 @@
+{% extends 'boutique/base.html' %}
+{% load static %}
+
+{% block title %}Nos produits{% endblock %}
+
+{% block content %}
+
+<h1 style="text-align:center; color:#007bff; margin-top:30px;">
+    Nos Produits
+</h1>
+
+<div style="
+    display:flex;
+    flex-wrap:wrap;
+    gap:25px;
+    justify-content:center;
+    margin:40px;
+">
+
+    {% for produit in produits %}
+    <div style="
+        width:270px;
+        border:1px solid #ddd;
+        border-radius:10px;
+        padding:15px;
+        text-align:center;
+        background:white;
+        box-shadow:0 2px 6px rgba(0,0,0,0.1);
+    ">
+
+        <!-- ✅ IMAGE DU PRODUIT -->
+        {% if produit.image %}
+            <img src="{{ produit.image.url }}" alt="{{ produit.nom }}"
+                style="width:100%; height:180px; object-fit:cover; border-radius:10px;">
+        {% else %}
+            <img src="https://via.placeholder.com/250x180?text=Pas+d'image" alt="Pas d'image"
+                style="width:100%; height:180px; object-fit:cover; border-radius:10px;">
+        {% endif %}
+
+        <!-- ✅ NOM -->
+        <h4 style="color:#007bff; margin-top:10px;">
+            {{ produit.nom|upper }}
+        </h4>
+
+        <!-- ✅ PRIX -->
+        <p style="margin:5px 0;">
+            <strong>Prix unitaire : </strong>
+            <span id="prix-{{ produit.id }}">{{ produit.prix }}</span> FCFA
+        </p>
+
+        <!-- ✅ QUANTITÉ -->
+        <div style="margin:8px 0;">
+            <label for="quantite-{{ produit.id }}">Quantité :</label>
+            <input id="quantite-{{ produit.id }}"
+                   type="number"
+                   name="quantite"
+                   value="1"
+                   min="1"
+                   style="width:60px; text-align:center; margin-left:5px;"
+                   onchange="updateTotal({{ produit.id }})">
+        </div>
+
+        <!-- ✅ TOTAL DYNAMIQUE -->
+        <p style="margin:5px 0; color:green; font-weight:bold;">
+            Total : <span id="total-{{ produit.id }}">{{ produit.prix }}</span> FCFA
+        </p>
+
+        <!-- ✅ BOUTONS ACTION -->
+        <div style="display:flex; justify-content:space-between; margin-top:10px;">
+            
+            <!-- Détails du produit -->
+            <a href="{% url 'produit_detail' produit.id %}"
+               style="background:#007bff; color:white; padding:6px 10px;
+               border-radius:5px; text-decoration:none;">
+                Détails
+            </a>
+
+            <!-- Ajouter au panier -->
+            <form action="{% url 'ajouter_panier' produit.id %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="quantite" id="hidden-quantite-{{ produit.id }}" value="1">
+
+                <button type="submit"
+                        style="background:#28a745; color:white; padding:6px 10px; border-radius:5px; border:none;"
+                        onclick="syncQuantite({{ produit.id }})">
+                    🛒 Ajouter
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+    {% empty %}
+        <p>Aucun produit disponible pour le moment.</p>
+    {% endfor %}
+
+</div>
+
+<!-- ✅ SCRIPT JS POUR TOTAL DYNAMIQUE -->
+<script>
+function updateTotal(id) {
+    const quantite = parseInt(document.getElementById(`quantite-${id}`).value);
+    const prix = parseFloat(document.getElementById(`prix-${id}`).textContent);
+    const total = quantite * prix;
+
+    document.getElementById(`total-${id}`).textContent = total.toFixed(0);
+    document.getElementById(`hidden-quantite-${id}`).value = quantite;
+}
+
+function syncQuantite(id) {
+    const quantite = document.getElementById(`quantite-${id}`).value;
+    document.getElementById(`hidden-quantite-${id}`).value = quantite;
+}
+</script>
+
+{% endblock %}

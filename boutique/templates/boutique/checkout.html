@@ -1,0 +1,114 @@
+{% extends 'boutique/base.html' %}
+{% load static %}
+
+{% block title %}Finaliser ma commande | Ma Boutique{% endblock %}
+
+{% block content %}
+<style>
+    .checkout-container {
+        max-width: 800px;
+        margin: 50px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    label {
+        font-weight: bold;
+        color: #555;
+    }
+
+    input[type="text"], input[type="tel"], textarea, select {
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+        width: 100%;
+    }
+
+    textarea {
+        resize: none;
+        height: 80px;
+    }
+
+    .total {
+        font-size: 20px;
+        font-weight: bold;
+        text-align: right;
+        color: #007bff;
+        margin-top: 10px;
+    }
+
+    button {
+        background-color: #28a745;
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background-color: #218838;
+    }
+
+    .back-btn {
+        display: inline-block;
+        background: #007bff;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 8px;
+        text-decoration: none;
+        margin-top: 10px;
+    }
+
+    .back-btn:hover {
+        background: #0056b3;
+    }
+</style>
+
+<div class="checkout-container">
+    <h1>🚚 Informations de Livraison</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <label for="nom">Nom complet :</label>
+        <input type="text" name="nom" id="nom" placeholder="Ex : Anicet ETHO" required>
+
+        <label for="telephone">Téléphone :</label>
+        <input type="tel" name="telephone" id="telephone" placeholder="Ex : +229 67 00 00 00" required>
+
+        <label for="adresse">Adresse complète :</label>
+        <textarea name="adresse" id="adresse" placeholder="Ex : Cotonou, quartier Fidjrossè..." required></textarea>
+
+        <label for="mode_livraison">Mode de livraison :</label>
+        <select name="mode_livraison" id="mode_livraison">
+            <option value="domicile">Livraison à domicile</option>
+            <option value="retrait">Retrait en boutique</option>
+        </select>
+
+        <div class="total">
+            💰 Total à payer : <strong>{{ total }} FCFA</strong>
+        </div>
+
+        <button type="submit">Continuer vers le paiement</button>
+    </form>
+
+    <a href="{% url 'boutique:cart' %}" class="back-btn">⬅ Retour au panier</a>
+</div>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends 'boutique/base.html' %}
+{% load static %}
+
+{% block title %}Mon Panier | Ma Boutique{% endblock %}
+
+{% block content %}
+<style>
+    table {
+        width: 90%;
+        margin: 40px auto;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    th, td {
+        padding: 15px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+    }
+    th {
+        background: #007bff;
+        color: white;
+    }
+    td img {
+        width: 60px;
+        border-radius: 5px;
+    }
+    .total {
+        text-align: right;
+        margin: 20px 5%;
+        font-size: 1.3em;
+    }
+    .btn {
+        background: #007bff;
+        color: white;
+        text-decoration: none;
+        padding: 10px 15px;
+        border-radius: 8px;
+        margin: 10px;
+        display: inline-block;
+    }
+    .btn:hover {
+        background: #0056b3;
+    }
+</style>
+
+<h2 style="text-align:center;">🛒 Mon Panier</h2>
+
+{% if items %}
+<table>
+    <tr>
+        <th>Produit</th>
+        <th>Quantité</th>
+        <th>Prix unitaire</th>
+        <th>Total</th>
+        <th>Action</th>
+    </tr>
+    {% for item in items %}
+    <tr>
+        <td>
+            {% if item.image %}
+                <img src="{{ item.image }}" alt="">
+            {% endif %}
+            <br>{{ item.name }}
+        </td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.price }} FCFA</td>
+        <td>{{ item.total_item }} FCFA</td>
+        <td><a class="btn" href="{% url 'boutique:remove_from_cart' item.product_id %}">Retirer</a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+<div class="total">
+    <strong>Total :</strong> {{ total }} FCFA
+</div>
+
+<div style="text-align:center;">
+    <a href="{% url 'boutique:checkout' %}" class="btn">Passer à la livraison</a>
+    <a href="{% url 'boutique:product_list' %}" class="btn" style="background:#28a745;">Continuer mes achats</a>
+</div>
+
+{% else %}
+<p style="text-align:center;">Votre panier est vide.</p>
+{% endif %}
+{% endblock %}

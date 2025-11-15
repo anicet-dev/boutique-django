@@ -1,0 +1,113 @@
+{% extends 'boutique/base.html' %}
+{% load static %}
+
+{% block title %}{{ produit.nom }} | Ma Boutique{% endblock %}
+
+{% block content %}
+<style>
+    .detail-container {
+        max-width: 1000px;
+        margin: 50px auto;
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        display: flex;
+        flex-wrap: wrap;
+        padding: 30px;
+    }
+
+    .detail-image {
+        flex: 1 1 400px;
+        text-align: center;
+    }
+
+    .detail-image img {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        border-radius: 12px;
+    }
+
+    .detail-info {
+        flex: 1 1 400px;
+        padding: 20px 30px;
+    }
+
+    .detail-info h1 {
+        color: #007bff;
+        margin-bottom: 15px;
+    }
+
+    .detail-info p {
+        color: #555;
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 10px;
+    }
+
+    .prix {
+        font-size: 22px;
+        font-weight: bold;
+        color: #28a745;
+        margin: 15px 0;
+    }
+
+    .stock {
+        font-size: 14px;
+        color: {% if produit.stock > 0 %}#28a745{% else %}#dc3545{% endif %};
+        margin-bottom: 20px;
+    }
+
+    .ajouter-panier {
+        background: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .ajouter-panier:hover {
+        background: #0056b3;
+    }
+
+    .retour {
+        display: inline-block;
+        margin-top: 30px;
+        text-decoration: none;
+        color: #333;
+        font-size: 15px;
+    }
+
+    .retour:hover {
+        color: #007bff;
+    }
+</style>
+
+<div class="detail-container">
+    <div class="detail-image">
+        {% if produit.image %}
+            <img src="{{ produit.image.url }}" alt="{{ produit.nom }}">
+        {% else %}
+            <img src="https://via.placeholder.com/400x300?text=Pas+d'image" alt="Pas d'image">
+        {% endif %}
+    </div>
+
+    <div class="detail-info">
+        <h1>{{ produit.nom }}</h1>
+        <p>{{ produit.description|linebreaks }}</p>
+
+        <p class="prix">{{ produit.prix }} FCFA</p>
+
+        {% if produit.stock > 0 %}
+            <p class="stock">✅ En stock ({{ produit.stock }} disponibles)</p>
+            <a href="{% url 'boutique:add_to_cart' produit.id %}" class="ajouter-panier">🛒 Ajouter au panier</a>
+        {% else %}
+            <p class="stock">❌ En rupture de stock</p>
+        {% endif %}
+
+        <br><br>
+        <a href="{% url 'boutique:product_list' %}" class="retour">⬅ Retour à la boutique</a>
+    </div>
+</div>
+{% endblock %}

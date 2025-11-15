@@ -1,0 +1,194 @@
+{% extends 'boutique/base.html' %}
+{% load static %}
+
+{% block title %}Mon panier{% endblock %}
+
+{% block content %}
+
+<style>
+    body {
+        background: #f4f6f9;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .card {
+        border: none;
+        border-radius: 15px !important;
+    }
+
+    .card:hover {
+        transform: scale(1.01);
+        transition: 0.2s ease;
+    }
+
+    h1 {
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+    .btn {
+        border-radius: 10px !important;
+    }
+
+    .summary-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .cart-item-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+    }
+
+    .quantity-btn {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px !important;
+    }
+
+    .quantity-input {
+        width: 65px !important;
+        border-radius: 10px;
+    }
+</style>
+
+<h1 class="text-center text-primary mt-4">🛒 Mon panier</h1>
+
+<div class="container mt-5">
+
+  {% if items %}
+    <div class="row">
+
+      <!-- 🧺 Liste des articles -->
+      <div class="col-lg-8">
+
+        {% for item in items %}
+          <div class="card mb-3 cart-item-card p-3" id="item-{{ item.product_id }}">
+            <div class="d-flex align-items-center justify-content-between">
+
+              <!-- 📸 Image + Infos -->
+              <div class="d-flex align-items-center">
+                {% if item.image %}
+                  <img src="{{ item.image }}" alt="{{ item.name }}"
+                       class="rounded-4 shadow-sm"
+                       width="85" height="85" style="object-fit: cover;">
+                {% else %}
+                  <img src="{% static 'images/placeholder.png' %}" alt="Pas d'image"
+                       class="rounded-4 shadow-sm"
+                       width="85" height="85">
+                {% endif %}
+
+                <div class="ms-3">
+                  <h5 class="fw-bold mb-1">{{ item.name }}</h5>
+                  <p class="mb-0 text-muted">{{ item.price }} FCFA</p>
+                </div>
+              </div>
+
+              <!-- 🔁 Quantité -->
+              <div class="d-flex align-items-center">
+                <button class="btn btn-outline-secondary quantity-btn me-2"
+                  onclick="updateQuantity('{{ item.product_id }}', 'dec')">−</button>
+
+                <input type="number" id="qty-{{ item.product_id }}"
+                  class="form-control text-center quantity-input"
+                  value="{{ item.quantity }}" min="1"
+                  onchange="updateQuantity('{{ item.product_id }}', 'set')">
+
+                <button class="btn btn-outline-secondary quantity-btn ms-2"
+                  onclick="updateQuantity('{{ item.product_id }}', 'inc')">+</button>
+              </div>
+
+              <!-- 💵 Total par produit -->
+              <div class="text-end me-3">
+                <strong class="fs-5" id="total-item-{{ item.product_id }}">
+                  {{ item.total_item }}
+                </strong> FCFA
+              </div>
+
+              <!-- ❌ Supprimer -->
+              <a href="{% url 'boutique:remove_from_cart' item.product_id %}"
+                 class="btn btn-danger btn-sm">
+                Supprimer
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+
+      </div>
+
+      <!-- 🧾 Résumé -->
+      <div class="col-lg-4">
+        <div class="summary-card p-4">
+          <h4 class="text-center mb-3">🧾 Résumé</h4>
+
+          <p class="text-center fs-4 fw-bold">
+            Total : <span id="cart-total">{{ total }}</span> FCFA
+          </p>
+
+          <a href="{% url 'boutique:checkout' %}"
+             class="btn btn-success btn-lg w-100 mt-3 shadow-sm">
+            Passer la commande
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+  {% else %}
+    <p class="text-center fs-5 mt-4">Votre panier est vide.</p>
+    <div class="text-center mt-3">
+      <a href="{% url 'boutique:product_list' %}" class="btn btn-primary btn-lg">
+        Retour aux produits
+      </a>
+    </div>
+  {% endif %}
+</div>
+
+<!-- 🧠 Script AJAX -->
+<script>
+  function updateQuantity(productId, action) {
+    const qtyField = document.getElementById(`qty-${productId}`);
+    let quantity = parseInt(qtyField.value);
+
+    if (action === 'inc') quantity++;
+    if (action === 'dec' && quantity > 1) quantity--;
+    if (action === 'set') quantity = parseInt(qtyField.value);
+
+    qtyField.value = quantity;
+
+    fetch("{% url 'boutique:update_cart' %}", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-CSRFToken": "{{ csrf_token }}"
+      },
+      body: new URLSearchParams({
+        product_id: productId,
+        action: "set",
+        quantity: quantity
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.total) {
+        document.getElementById('cart-total').textContent = data.total.toFixed(0);
+
+        if (data.cart && data.cart[productId]) {
+          const itemTotal = data.cart[productId].price * data.cart[productId].quantity;
+          document.getElementById(`total-item-${productId}`).textContent =
+              itemTotal.toFixed(0);
+        } else {
+          document.getElementById(`item-${productId}`).remove();
+        }
+      }
+    })
+    .catch(err => console.error("Erreur AJAX:", err));
+  }
+</script>
+
+{% endblock %}

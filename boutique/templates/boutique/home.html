@@ -1,0 +1,75 @@
+{% extends 'boutique/base.html' %}
+{% load static %}
+
+{% block title %}Accueil | Ma Boutique{% endblock %}
+
+{% block content %}
+<style>
+    .accueil {
+        text-align: center;
+        padding: 80px 20px;
+        background: linear-gradient(120deg, #00aaff, #0077cc);
+        color: white;
+        border-radius: 12px;
+        margin: 40px auto;
+        max-width: 900px;
+    }
+
+    .accueil h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+
+    .accueil p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+    }
+
+    .btn {
+        background: white;
+        color: #0077cc;
+        padding: 12px 25px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .btn:hover {
+        background: #0056b3;
+        color: white;
+    }
+
+    .contact {
+        background: #f9f9f9;
+        padding: 50px;
+        margin-top: 50px;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .contact a {
+        color: #0077cc;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .contact a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<section class="accueil">
+    <h2>Bienvenue sur Ma Boutique</h2>
+    <p>Découvrez nos produits frais classés par catégories : fruits, légumes, condiments et divers !</p>
+    <a href="{% url 'boutique:product_list' %}" class="btn">Voir les produits</a>
+</section>
+
+<section class="contact">
+    <h3>Contactez-nous</h3>
+    <p>Besoin d’aide ou d’une commande spéciale ?</p>
+    <p><a href="mailto:support@maboutique.com">support@maboutique.com</a></p>
+    <p>Téléphone : +229 90 00 00 00</p>
+</section>
+{% endblock %}

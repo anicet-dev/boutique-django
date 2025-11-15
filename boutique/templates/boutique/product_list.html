@@ -1,0 +1,86 @@
+{% extends 'boutique/base.html' %}
+{% load static %}
+
+{% block title %}Nos Produits | Ma Boutique{% endblock %}
+
+{% block content %}
+<style>
+    .titre-page {
+        text-align: center;
+        font-size: 30px;
+        margin: 40px 0 30px;
+        color: #007bff;
+        font-weight: bold;
+    }
+
+    .categories-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+        margin-bottom: 50px;
+    }
+
+    .categorie-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        width: 280px;
+        text-align: center;
+        padding: 25px 15px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .categorie-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    .categorie-card h2 {
+        font-size: 22px;
+        color: #333;
+        margin-top: 10px;
+    }
+
+    .categorie-card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+
+    .categorie-card a {
+        display: inline-block;
+        background-color: #007bff;
+        color: white;
+        padding: 10px 18px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .categorie-card a:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<h1 class="titre-page">Nos Catégories de Produits</h1>
+
+<div class="categories-container">
+    {% for categorie in categories %}
+        <div class="categorie-card">
+            {% if categorie.image %}
+                <img src="{{ categorie.image.url }}" alt="{{ categorie.nom }}">
+            {% else %}
+                <img src="https://via.placeholder.com/280x180?text={{ categorie.nom }}" alt="{{ categorie.nom }}">
+            {% endif %}
+            <h2>{{ categorie.nom }}</h2>
+            <a href="{% url 'boutique:category_products' categorie.nom %}">Voir les produits</a>
+        </div>
+    {% empty %}
+        <p>Aucune catégorie disponible.</p>
+    {% endfor %}
+</div>
+{% endblock %}

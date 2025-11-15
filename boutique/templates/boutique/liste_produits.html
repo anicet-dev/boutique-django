@@ -1,0 +1,38 @@
+{% extends 'boutique/base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center text-primary mb-4">🛒 Nos Produits</h2>
+
+    {% for categorie in categories %}
+        <div class="mb-5">
+            <h3 class="border-start border-4 border-primary ps-3 mb-3">
+                {{ categorie.nom }}
+            </h3>
+
+            {% if categorie.produits.all %}
+                <div class="row">
+                    {% for produit in categorie.produits.all %}
+                        <div class="col-md-3 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                {% if produit.image %}
+                                    <img src="{{ produit.image.url }}" class="card-img-top" alt="{{ produit.nom }}">
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ produit.nom }}</h5>
+                                    <p class="card-text text-muted">{{ produit.description|truncatewords:15 }}</p>
+                                    <p class="fw-bold text-success">{{ produit.prix }} FCFA</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-muted">Aucun produit disponible dans cette catégorie.</p>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p class="text-center text-danger">Aucune catégorie trouvée.</p>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends 'boutique/base.html' %}
+{% load static %}
+
+{% block title %}Accueil | Ma Boutique{% endblock %}
+
+{% block content %}
+<style>
+    .hero {
+        text-align: center;
+        background: linear-gradient(135deg, #007bff, #00c6ff);
+        color: white;
+        padding: 80px 20px;
+        border-radius: 10px;
+        margin-bottom: 40px;
+    }
+
+    .hero h2 {
+        font-size: 36px;
+        margin-bottom: 10px;
+    }
+
+    .hero p {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .hero a {
+        background-color: white;
+        color: #007bff;
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .hero a:hover {
+        background-color: #f1f1f1;
+    }
+
+    /* ====== CATEGORIES ====== */
+    .categories {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+        padding: 0 30px 50px;
+    }
+
+    .categorie {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        text-align: center;
+        padding: 25px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .categorie:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+
+    .categorie img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+
+    .categorie h3 {
+        margin: 10px 0;
+        color: #007bff;
+    }
+
+    .categorie a {
+        display: inline-block;
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+
+    .categorie a:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<!-- ====== SECTION D’ACCUEIL ====== -->
+<section class="hero">
+    <h2>Bienvenue sur Ma Boutique 🛍️</h2>
+    <p>Découvrez nos produits frais, locaux et de qualité, classés par catégories.</p>
+    <a href="{% url 'boutique:product_list' %}">Voir tous les produits</a>
+</section>
+
+<!-- ====== LES GRANDES CATÉGORIES ====== -->
+<section class="categories">
+    <div class="categorie">
+        <img src="https://images.unsplash.com/photo-1574226516831-e1dff420e12e?auto=format&fit=crop&w=600&q=80" alt="Fruits">
+        <h3>🍎 Fruits</h3>
+        <p>Pommes, bananes, oranges, mangues et plus encore.</p>
+        <a href="{% url 'boutique:product_list' %}?categorie=fruits">Voir la liste</a>
+    </div>
+
+    <div class="categorie">
+        <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=600&q=80" alt="Légumes">
+        <h3>🥦 Légumes</h3>
+        <p>Carottes, tomates, oignons, choux, piments, etc.</p>
+        <a href="{% url 'boutique:product_list' %}?categorie=legumes">Voir la liste</a>
+    </div>
+
+    <div class="categorie">
+        <img src="https://images.unsplash.com/photo-1604908177097-1b2be223fe0d?auto=format&fit=crop&w=600&q=80" alt="Condiments">
+        <h3>🌶️ Condiments</h3>
+        <p>Sel, poivre, épices, cubes et assaisonnements variés.</p>
+        <a href="{% url 'boutique:product_list' %}?categorie=condiments">Voir la liste</a>
+    </div>
+
+    <div class="categorie">
+        <img src="https://images.unsplash.com/photo-1590080875830-9e5c89e53b9d?auto=format&fit=crop&w=600&q=80" alt="Divers">
+        <h3>🛒 Divers</h3>
+        <p>Huiles, boissons, produits de maison et plus encore.</p>
+        <a href="{% url 'boutique:product_list' %}?categorie=divers">Voir la liste</a>
+    </div>
+</section>
+{% endblock %}

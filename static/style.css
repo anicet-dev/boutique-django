@@ -1,0 +1,102 @@
+body { font-family: Arial; margin: 0; background: #f5f5f5; }
+header, footer { background: #333; color: #fff; padding: 10px; text-align: center; }
+a { color: #009688; text-decoration: none; }
+.produits { display: flex; flex-wrap: wrap; gap: 10px; }
+.produit { background: #fff; padding: 10px; border: 1px solid #ddd; width: 150px; text-align: center; }
+img { max-width: 100%; height: auto; }
+table { width: 100%; border-collapse: collapse; background: #fff; }
+td, th { border: 1px solid #ddd; padding: 8px; }
+button { background: #009688; color: #fff; border: none; padding: 5px 10px; }
+
+/* ====== STYLE SPECIAL POUR LA PAGE PANIER ====== */
+
+/* Conteneur général */
+.table-panier {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* En-tête du tableau */
+.table-panier thead {
+    background: #009688;
+    color: #fff;
+}
+
+.table-panier th {
+    padding: 14px;
+    font-size: 16px;
+    text-align: center;
+}
+
+/* Lignes du tableau */
+.table-panier td {
+    padding: 12px;
+    text-align: center;
+    font-size: 15px;
+    border: 1px solid #eee;
+}
+
+/* Effet survol */
+.table-panier tr:hover {
+    background: #f9f9f9;
+}
+
+/* Bouton supprimer */
+.btn-delete {
+    display: inline-block;
+    background: #e53935;
+    color: #fff !important;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.btn-delete:hover {
+    background: #c62828;
+}
+
+/* Conteneur total */
+.total-panier {
+    width: 90%;
+    margin: 20px auto;
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: right;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.total-panier p {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+/* Bouton commander */
+.btn-commander {
+    background: #009688;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.btn-commander:hover {
+    background: #00796b;
+}
+
+/* Panier vide */
+.cart-empty {
+    text-align: center;
+    font-size: 20px;
+    color: #555;
+    margin-top: 40px;
+}

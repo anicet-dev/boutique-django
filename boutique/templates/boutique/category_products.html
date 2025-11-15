@@ -1,0 +1,110 @@
+{% extends 'boutique/base.html' %}
+{% load static %}
+
+{% block title %}{{ category_name }} | Ma Boutique{% endblock %}
+
+{% block content %}
+<style>
+    .titre-page {
+        text-align: center;
+        font-size: 30px;
+        margin: 40px 0 20px;
+        color: #007bff;
+        font-weight: bold;
+    }
+
+    .produits-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 25px;
+        margin-bottom: 50px;
+    }
+
+    .produit-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        width: 260px;
+        text-align: center;
+        padding: 15px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .produit-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    .produit-card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 12px;
+    }
+
+    .produit-card h3 {
+        font-size: 18px;
+        color: #007bff;
+        margin-bottom: 5px;
+    }
+
+    .produit-card p {
+        color: #333;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .produit-card a {
+        display: inline-block;
+        background-color: #007bff;
+        color: white;
+        padding: 8px 14px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .produit-card a:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-retour {
+        display: inline-block;
+        margin: 20px auto;
+        background-color: #6c757d;
+        color: white;
+        padding: 10px 18px;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+
+    .btn-retour:hover {
+        background-color: #555;
+    }
+</style>
+
+<h1 class="titre-page">{{ category_name }}</h1>
+
+<div class="produits-container">
+    {% for produit in produits %}
+        <div class="produit-card">
+            {% if produit.image %}
+                <img src="{{ produit.image.url }}" alt="{{ produit.nom }}">
+            {% else %}
+                <img src="https://via.placeholder.com/250x180?text=Pas+d'image" alt="Pas d'image">
+            {% endif %}
+            <h3>{{ produit.nom }}</h3>
+            <p>{{ produit.prix }} FCFA</p>
+            <a href="{% url 'boutique:product_detail' produit.id %}">Voir détails</a>
+        </div>
+    {% empty %}
+        <p>Aucun produit disponible dans cette catégorie.</p>
+    {% endfor %}
+</div>
+
+<div style="text-align:center;">
+    <a href="{% url 'boutique:product_list' %}" class="btn-retour">← Retour aux catégories</a>
+</div>
+{% endblock %}
