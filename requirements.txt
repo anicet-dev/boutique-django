@@ -1,6 +1,15 @@
-psycopg2-binary==2.9.9
-asgiref==3.8.1
 Django==5.2.0
 gunicorn==22.0.0
 whitenoise==6.7.0
+
+# Base de données PostgreSQL (Render)
+psycopg[binary]
 dj-database-url==2.1.0
+
+# Images (Django admin / boutique)
+Pillow
+
+# Variables d’environnement (local uniquement)
+python-dotenv
+
+asgiref==3.8.1

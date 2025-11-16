@@ -1,11 +1,13 @@
 from pathlib import Path
 import os
-import dj_database_url   # <-- AJOUT IMPORTANT
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get("SECRET_KEY", "insecure-local-key")  # <-- sécurisé pour Render
+SECRET_KEY = os.environ.get("SECRET_KEY", "insecure-local-key")
+
 DEBUG = True
+
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
@@ -48,28 +50,32 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'monsite.wsgi.application'
 
-# ===============================
-# 🔥 BASE DE DONNÉES → POSTGRESQL
-# ===============================
+# =======================================
+# 🔥 CONFIGURATION BASE DE DONNÉES RENDER
+# =======================================
 DATABASES = {
-    'default': dj_database_url.config(
+    "default": dj_database_url.config(
         default=os.environ.get("DATABASE_URL"),
         conn_max_age=600,
         ssl_require=True
     )
 }
 
-# ============================
-# 🌍 LANGUE & TEMPS
-# ============================
+# Pour psycopg3 → Aucune ligne ENGINE n'est nécessaire,
+# dj_database_url la génère automatiquement :
+# ENGINE = "django.db.backends.postgresql"
+
+# =======================================
+# 🌍 LANGUES ET TEMPS
+# =======================================
 LANGUAGE_CODE = 'fr'
 TIME_ZONE = 'Africa/Porto-Novo'
 USE_I18N = True
 USE_TZ = True
 
-# ============================
-# 🧱 FICHIERS STATIQUES ET MÉDIAS
-# ============================
+# =======================================
+# 🗂️ STATIQUES & MEDIAS
+# =======================================
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'boutique' / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
@@ -78,4 +84,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Panier
 CART_SESSION_ID = 'cart'
