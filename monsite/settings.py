@@ -6,9 +6,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("SECRET_KEY", "insecure-local-key")
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "0.0.0.0",
+    "boutique-store.onrender.com",
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -50,9 +55,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'monsite.wsgi.application'
 
-# =======================================
-# 🔥 CONFIGURATION BASE DE DONNÉES RENDER
-# =======================================
 DATABASES = {
     "default": dj_database_url.config(
         default=os.environ.get("DATABASE_URL"),
@@ -61,23 +63,13 @@ DATABASES = {
     )
 }
 
-# Pour psycopg3 → Aucune ligne ENGINE n'est nécessaire,
-# dj_database_url la génère automatiquement :
-# ENGINE = "django.db.backends.postgresql"
-
-# =======================================
-# 🌍 LANGUES ET TEMPS
-# =======================================
 LANGUAGE_CODE = 'fr'
 TIME_ZONE = 'Africa/Porto-Novo'
 USE_I18N = True
 USE_TZ = True
 
-# =======================================
-# 🗂️ STATIQUES & MEDIAS
-# =======================================
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'boutique' / 'static']
+STATICFILES_DIRS = []  # important en prod
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
@@ -85,5 +77,4 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Panier
 CART_SESSION_ID = 'cart'
