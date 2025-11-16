@@ -1,9 +1,10 @@
 from pathlib import Path
 import os
+import dj_database_url   # <-- AJOUT IMPORTANT
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-remplace-moi-en-production'
+SECRET_KEY = os.environ.get("SECRET_KEY", "insecure-local-key")  # <-- sécurisé pour Render
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 
@@ -47,13 +48,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'monsite.wsgi.application'
 
+# ===============================
+# 🔥 BASE DE DONNÉES → POSTGRESQL
+# ===============================
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get("DATABASE_URL"),
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
 
+# ============================
+# 🌍 LANGUE & TEMPS
+# ============================
 LANGUAGE_CODE = 'fr'
 TIME_ZONE = 'Africa/Porto-Novo'
 USE_I18N = True
@@ -64,13 +72,10 @@ USE_TZ = True
 # ============================
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'boutique' / 'static']
-STATIC_ROOT = BASE_DIR / 'staticfiles'   # ✅ Ajout essentiel
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'          # ✅ Pour les images produits
+MEDIA_ROOT = BASE_DIR / 'media'
 
-# ============================
-# ⚙️ AUTRES CONFIGS
-# ============================
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CART_SESSION_ID = 'cart'
