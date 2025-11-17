@@ -13,5 +13,5 @@
         generateValue: true
       - key: PYTHON_VERSION
         value: "3.10"
-      - key: DATABASE_URL
-        value: "postgresql://boutique_user:XVdPV95VO2JAoc5nHAhLzZyN9k0TM0rQ@dpg-d4crunk9c44c7390nk1g-a.frankfurt-postgres.render.com/boutique_db_jlmp"
+      - - key: DATABASE_URL
+          value: "postgresql://boutique_user:XVdPV95VO2JAoc5nHAhLzZyN9k0TM0rQ@dpg-d4crunk9c44c7390nk1g-a.frankfurt-postgres.render.com/boutique_db_jlmp"
