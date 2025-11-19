@@ -4,19 +4,19 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Sécurité
 SECRET_KEY = os.environ.get("SECRET_KEY", "insecure-local-key")
+DEBUG = False
 
-DEBUG = True
-
+# Hôtes autorisés
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     "0.0.0.0",
-    "boutique-dango.onrender.com",
-    "boutique-store.onrender.com"
+    "boutique-store.onrender.com",
 ]
 
-
+# Applications
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -24,12 +24,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'boutique',
+
+    # Cloudinary
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # ⭐ OBLIGATOIRE
+
+    # Whitenoise (statique)
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -38,9 +47,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
 ROOT_URLCONF = 'monsite.urls'
 
+# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -59,29 +68,46 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'monsite.wsgi.application'
 
-
-# DATABASE Render
+# -------------------------------
+# 🎯 BASE DE DONNÉES RENDER
+# -------------------------------
 DATABASES = {
-    "default": dj_database_url.config(
-        default=os.environ.get("DATABASE_URL"),
+    'default': dj_database_url.parse(
+        "postgresql://boutique_user:XVdPV95VO2JAoc5nHAhLzZyN9k0TM0rQ@dpg-d4crunk9c44c7390nk1g-a.frankfurt-postgres.render.com/boutique_db_jlmp",
         conn_max_age=600,
         ssl_require=True
     )
 }
 
+# Internationalisation
 LANGUAGE_CODE = 'fr'
 TIME_ZONE = 'Africa/Porto-Novo'
 USE_I18N = True
 USE_TZ = True
 
+# -------------------------------
+# 🎯 STATIQUES POUR RENDER
+# -------------------------------
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'boutique' / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+# -------------------------------
+# 🎯 CLOUDINARY - MEDIA ONLINE
+# -------------------------------
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'TON_CLOUD_NAME',
+    'API_KEY': 'TA_CLE_API',
+    'API_SECRET': 'TON_API_SECRET',
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# IMPORTANT : MEDIA_URL Cloudinary
+MEDIA_URL = 'https://res.cloudinary.com/TON_CLOUD_NAME/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Panier
 CART_SESSION_ID = 'cart'
