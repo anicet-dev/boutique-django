@@ -36,7 +36,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
 
-    # WhiteNoise pour Render (static files)
+    # WhiteNoise pour les fichiers statiques
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -68,18 +68,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'monsite.wsgi.application'
 
-
 # -------------------------------
-# 🎯 RENDER DATABASE (PostgreSQL)
+# 🎯 RENDER DATABASE
 # -------------------------------
 DATABASES = {
     'default': dj_database_url.parse(
-        "postgresql://boutique_user:XVdPV95VO2JAoc5nHAhLzZyN9k0TM0rQ@dpg-d4crunk9c44c7390nk1g-a.frankfurt-postgres.render.com/boutique_db_jlmp",
+        "postgresql://boutique_user:XVdPV95VO2JAoc5nHAhLzZyN0TM0rQ@dpg-d4crunk9c44c7390nk1g-a.frankfurt-postgres.render.com/boutique_db_jlmp",
         conn_max_age=600,
         ssl_require=True
     )
 }
-
 
 # -------------------------------
 # 🎯 STATIC (Render)
@@ -90,21 +88,19 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-
 # -------------------------------
 # 🎯 CLOUDINARY CONFIG
 # -------------------------------
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dtxziqbxs',
     'API_KEY': '945514746192597',
-    'API_SECRET': 'WOvy4a9ftuE0ulqUUhyCZEwboZA',
+    'API_SECRET': 'WOvy4a9ftuE0ulqUUhyCZEwboZA',   # ← Mets ta vraie clé ici
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-# URL MEDIA Cloudinary – Obligation ! 
-MEDIA_URL = f'https://res.cloudinary.com/dtxziqbxs/'
-
+# Cloudinary media base URL
+MEDIA_URL = 'https://res.cloudinary.com/dtxziqbxs/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
