@@ -36,7 +36,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
 
-    # Whitenoise (statique)
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -48,6 +47,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'monsite.urls'
+
 
 # Templates
 TEMPLATES = [
@@ -68,6 +68,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'monsite.wsgi.application'
 
+
 # -------------------------------
 # 🎯 BASE DE DONNÉES RENDER
 # -------------------------------
@@ -79,11 +80,6 @@ DATABASES = {
     )
 }
 
-# Internationalisation
-LANGUAGE_CODE = 'fr'
-TIME_ZONE = 'Africa/Porto-Novo'
-USE_I18N = True
-USE_TZ = True
 
 # -------------------------------
 # 🎯 STATIQUES POUR RENDER
@@ -93,19 +89,21 @@ STATICFILES_DIRS = [BASE_DIR / 'boutique' / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+
 # -------------------------------
-# 🎯 CLOUDINARY - MEDIA ONLINE
+# 🎯 CLOUDINARY - MEDIA
 # -------------------------------
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'TON_CLOUD_NAME',
-    'API_KEY': 'TA_CLE_API',
-    'API_SECRET': 'TON_API_SECRET',
+    'CLOUD_NAME': 'dtxziqbxs',
+    'API_KEY': '945514746192597',
+    'API_SECRET': 'WOvy4a9ftuE0ulqUUhyCZEwboZA',
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-# IMPORTANT : MEDIA_URL Cloudinary
-MEDIA_URL = 'https://res.cloudinary.com/TON_CLOUD_NAME/'
+# ⚠️ VERY IMPORTANT : Correct MEDIA_URL
+MEDIA_URL = f'https://res.cloudinary.com/dtxziqbxs/'
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

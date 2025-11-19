@@ -17,7 +17,11 @@ class Categorie(models.Model):
 
 # --- Produits ---
 class Produit(models.Model):
-    categorie = models.ForeignKey(Categorie, on_delete=models.CASCADE, related_name="produits")
+    categorie = models.ForeignKey(
+        Categorie,
+        on_delete=models.CASCADE,
+        related_name="produits"
+    )
     nom = models.CharField(max_length=200)
     description = models.TextField(blank=True, default='')
     prix = models.DecimalField(max_digits=10, decimal_places=2)
@@ -33,15 +37,19 @@ class Order(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
-        null=True, blank=True,
+        null=True,
+        blank=True,
         related_name='orders'
     )
     nom = models.CharField(max_length=200)
     telephone = models.CharField(max_length=20)
-    adresse = models.TextField(blank=True, null=True)  # ✅ Ajouté ici
+    adresse = models.TextField(blank=True, null=True)
     mode_livraison = models.CharField(
         max_length=50,
-        choices=[('livraison', 'Livraison à domicile'), ('retrait', 'Retrait sur place')],
+        choices=[
+            ('livraison', 'Livraison à domicile'),
+            ('retrait', 'Retrait sur place')
+        ],
         default='livraison'
     )
     total = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
@@ -54,7 +62,11 @@ class Order(models.Model):
 
 # --- Éléments d’une commande ---
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+        related_name='items'
+    )
     produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
     quantite = models.PositiveIntegerField(default=1)
     prix_unitaire = models.DecimalField(max_digits=10, decimal_places=2)
@@ -78,10 +90,18 @@ class Paiement(models.Model):
         ('echoue', 'Échoué'),
     ]
 
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='paiements')
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+        related_name='paiements'
+    )
     mode_paiement = models.CharField(max_length=20, choices=MODE_CHOICES)
     montant = models.DecimalField(max_digits=10, decimal_places=2)
-    statut = models.CharField(max_length=20, choices=STATUT_CHOICES, default='en_attente')
+    statut = models.CharField(
+        max_length=20,
+        choices=STATUT_CHOICES,
+        default='en_attente'
+    )
     date_paiement = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
