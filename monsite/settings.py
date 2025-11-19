@@ -36,6 +36,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
 
+    # WhiteNoise pour Render (static files)
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -47,7 +48,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'monsite.urls'
-
 
 # Templates
 TEMPLATES = [
@@ -70,7 +70,7 @@ WSGI_APPLICATION = 'monsite.wsgi.application'
 
 
 # -------------------------------
-# 🎯 BASE DE DONNÉES RENDER
+# 🎯 RENDER DATABASE (PostgreSQL)
 # -------------------------------
 DATABASES = {
     'default': dj_database_url.parse(
@@ -82,16 +82,17 @@ DATABASES = {
 
 
 # -------------------------------
-# 🎯 STATIQUES POUR RENDER
+# 🎯 STATIC (Render)
 # -------------------------------
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'boutique' / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 # -------------------------------
-# 🎯 CLOUDINARY - MEDIA
+# 🎯 CLOUDINARY CONFIG
 # -------------------------------
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dtxziqbxs',
@@ -101,7 +102,7 @@ CLOUDINARY_STORAGE = {
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-# ⚠️ VERY IMPORTANT : Correct MEDIA_URL
+# URL MEDIA Cloudinary – Obligation ! 
 MEDIA_URL = f'https://res.cloudinary.com/dtxziqbxs/'
 
 
